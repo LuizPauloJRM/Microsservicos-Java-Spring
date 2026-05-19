@@ -13,6 +13,7 @@ import java.util.List;
 //Acesso e manipulação do banco
 public interface AgendamentoDAO extends JpaRepository<Agendamento,Long> {
     //FIND com BETWEEN - Consulta entre os horários
+    //Serviço, data hora ,agendamento
     Agendamento findByServicoPrestadoAndDataHoraAgendamentoBetween(String servicoPrestado , LocalDateTime dataHoraInicio , LocalDateTime dataHoraFim);
 
 

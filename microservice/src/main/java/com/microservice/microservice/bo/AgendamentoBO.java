@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -23,12 +22,12 @@ public class AgendamentoBO {
     //Agendamento a cada hora
     //Para não permitir que os horários tenha conflito com outros
     //Retornar um agendamento , receber um agendamento
-    public Agendamento salvarAgendamento (Agendamento agendamento){
+    public Agendamento salvarAgendamento(Agendamento agendamento){
         //Pegar o horario de agendamento hora
         LocalDateTime horaAgendamento = agendamento.getDataHoraAgendamento();
         //Verificação se não tem agendamento dentro de uma hora
         //Exemplo agendamentos de uma em uma hora
-        LocalDateTime horaFim = agendamento.getDataHoraAgendamento().plusMinutes(1);
+        LocalDateTime horaFim = agendamento.getDataHoraAgendamento().plusHours(1);
         //Me da o Servico , hora fim e hora inicio
         Agendamento servicosAgendados = agendamentoDAO.findByServicoPrestadoAndDataHoraAgendamentoBetween(agendamento.getServicoPrestado(),horaAgendamento,horaFim);
 
@@ -55,11 +54,11 @@ public class AgendamentoBO {
     }
 
     //Buscar so por data e com data posso buscar a hora
-    public List<Agendamento> buscarAgendamentosDia(LocalDate data){
-        LocalDateTime buscarInicioDoDia = data.atStartOfDay();
-        LocalDateTime buscarFimDoDia = data.atTime(23,59, 59);
+    public Agendamento buscarAgendamentosDia(LocalDate data){
+        LocalDateTime primeiraHoraDia = data.atStartOfDay();
+        LocalDateTime horaFinalDia = data.atTime(23,59, 59);
 
-        return agendamentoDAO.findByDataHoraAgendamentoBetween(buscarInicioDoDia,buscarFimDoDia);
+        return (Agendamento) agendamentoDAO.findByDataHoraAgendamentoBetween(primeiraHoraDia,horaFinalDia);
 
     }
 

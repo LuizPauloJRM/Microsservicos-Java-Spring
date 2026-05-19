@@ -16,10 +16,10 @@ public class AgendamentoController {
 
     //Instancia a regra de negocio
     private final AgendamentoBO agendamentoBO;
-
+    //Aqui quem  vai salvar retorno do save
     @PostMapping
     public ResponseEntity<Agendamento> salvarAgendameto(@RequestBody Agendamento agendamento){
-        return ResponseEntity.ok().body(agendamentoBO.salvarAgendamento(agendamento));
+        return ResponseEntity.accepted().body(agendamentoBO.salvarAgendamento(agendamento));
     }
 
     @DeleteMapping
@@ -33,14 +33,15 @@ public class AgendamentoController {
 
     @GetMapping
     public ResponseEntity<Agendamento> buscarAgendamentosDia(@RequestParam LocalDate data){
-        return ResponseEntity.ok().body(agendamentoBO.buscarAgendamentosDia(data));
+        ResponseEntity<Agendamento> body = ResponseEntity.ok().body(agendamentoBO.buscarAgendamentosDia(data));
+        return body;
 
     }
     @PutMapping
     public ResponseEntity<Agendamento> alterarAgendamentos(@RequestBody Agendamento agendamento,
                                                            @RequestParam String cliente,
                                                            @RequestParam LocalDateTime dataHoraAgendamento) {
-        return ResponseEntity.accepted().body(agendamentoService.alterarAgendamento(agendamento,
+        return ResponseEntity.accepted().body(agendamentoBO.editarAgendamento(agendamento,
                 cliente, dataHoraAgendamento));
     }
 
